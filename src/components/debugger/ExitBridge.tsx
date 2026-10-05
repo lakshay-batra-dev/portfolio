@@ -11,6 +11,6 @@ export function ExitBridge({ lines }: { lines: string[] }) {
 export const exitLines = {
   solved: ["BUG FIXED", "Get a life, nerd."],
   skipped: ["Fair enough.", "Skipping debugger..."],
-  timeout: ["30 seconds.", "You know what?", "Never mind.", "Get a life, nerd."],
+  timeout: ["30 seconds.", "You know what?", "Never mind."],
   mobile: ["You're debugging C++ on a phone?", "I'm not making you suffer through this.", "Continuing..."],
 } as const;

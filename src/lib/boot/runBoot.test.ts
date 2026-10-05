@@ -37,7 +37,9 @@ test("boot initializes local data and ends on the diagnostic handoff", async () 
   assert.equal(completion.tasks.control, "success");
   assert.equal(completion.tasks.diagnostics, "warning");
   assert.equal(text.filter((line) => line === "Checking...").length, 3);
-  assert.ok(text.indexOf("Initializing questionable life choices...") < text.indexOf("SYSTEM DIAGNOSTICS"));
+  assert.ok(text.indexOf("[ OK ] Checking if `it works on my machine`...") < text.indexOf("SYSTEM DIAGNOSTICS"));
+  assert.ok(text.includes('[WARN] 47 commits named "final_final_v2".'));
+  assert.ok(!text.some((line) => line.includes("questionable life choices")));
   assert.ok(text.indexOf("SYSTEM DIAGNOSTICS") < text.indexOf("1 anomaly detected"));
   assert.ok(text.indexOf("1 anomaly detected") < text.indexOf("Integrity: 87%"));
   assert.ok(!text.some((line) => line.includes("LAKSHAY BATRA") || line.includes("SOFTWARE ENGINEER")));

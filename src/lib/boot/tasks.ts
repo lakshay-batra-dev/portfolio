@@ -16,7 +16,7 @@ export const bootTasks: BootTask[] = [
   {
     id: "kernel",
     phase: "INITIALIZE_KERNEL",
-    command: "Initializing questionable life choices...",
+    command: "[ OK ] Checking if `it works on my machine`...",
     minDurationMs: 220,
     timeoutMs: 2000,
     async run() {
@@ -30,7 +30,7 @@ export const bootTasks: BootTask[] = [
   {
     id: "caffeine",
     phase: "INITIALIZE_KERNEL",
-    command: "Checking caffeine reserves... OK",
+    command: "[ OK ] It does. We're not touching it.",
     minDurationMs: 220,
     timeoutMs: 2000,
     async run() {
@@ -44,7 +44,7 @@ export const bootTasks: BootTask[] = [
   {
     id: "cpu",
     phase: "INITIALIZE_KERNEL",
-    command: "Negotiating with the CPU...",
+    command: "[ OK ] Searching for missing semicolons...",
     minDurationMs: 220,
     timeoutMs: 2000,
     async run() {
@@ -58,7 +58,7 @@ export const bootTasks: BootTask[] = [
   {
     id: "javascript",
     phase: "LOAD_PROJECTS",
-    command: "Loading suspicious amounts of JavaScript...",
+    command: "[WARN] Found 0.",
     minDurationMs: 220,
     timeoutMs: 2000,
     async run() {
@@ -69,7 +69,7 @@ export const bootTasks: BootTask[] = [
   {
     id: "bugs",
     phase: "LOAD_PROJECTS",
-    command: "Looking for bugs before they look for me...",
+    command: "[WARN] Suspicious.",
     minDurationMs: 220,
     timeoutMs: 2000,
     async run() {
@@ -80,7 +80,7 @@ export const bootTasks: BootTask[] = [
   {
     id: "semicolons",
     phase: "PREPARE_APPLICATION",
-    command: "Searching for missing semicolons...",
+    command: "[ OK ] Checking Git history...",
     minDurationMs: 220,
     timeoutMs: 2000,
     async run() {
@@ -91,7 +91,7 @@ export const bootTasks: BootTask[] = [
   {
     id: "compiler",
     phase: "INITIALIZE_DIAGNOSTICS",
-    command: "Asking the compiler nicely...",
+    command: '[WARN] 47 commits named "final_final_v2".',
     minDurationMs: 220,
     timeoutMs: 2000,
     async run() {
@@ -102,7 +102,7 @@ export const bootTasks: BootTask[] = [
   {
     id: "control",
     phase: "PREPARE_APPLICATION",
-    command: "Pretending everything is under control...",
+    command: "",
     minDurationMs: 220,
     timeoutMs: 2000,
     async run() {

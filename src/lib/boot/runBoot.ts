@@ -159,13 +159,15 @@ export async function runBoot(
     phase = task.phase;
     activeTaskId = task.id;
     const commandId = `${task.id}:command`;
-    pushLine({
-      id: commandId,
-      kind: "command",
-      text: task.command,
-      status: "running",
-    });
-    cursorLineId = commandId;
+    if (task.command) {
+      pushLine({
+        id: commandId,
+        kind: "command",
+        text: task.command,
+        status: task.command.startsWith("[WARN]") ? "warning" : "running",
+      });
+      cursorLineId = commandId;
+    }
 
     const started = clock.now();
     let result: BootTaskResult;

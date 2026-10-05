@@ -8,7 +8,8 @@ function BootLine({ line }: { line: TypedLogLine }) {
 
   const cursor = line.cursor ? <TerminalCursor /> : null;
   const tone = line.status === "error" ? "text-boot-err" : line.status === "warning" ? "text-boot-warn" : undefined;
-  const lead = line.id === "diagnostics:command" ? "mt-6" : "";
+  const lead =
+    line.id === "diagnostics:command" ? "mt-6" : line.id === "cpu:command" || line.id === "semicolons:command" ? "mt-4" : "";
 
   return (
     <p className={`leading-7 ${tone ?? ""} ${lead}`}>
