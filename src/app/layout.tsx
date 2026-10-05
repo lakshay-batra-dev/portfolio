@@ -9,8 +9,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DEBUG//LAKSHAY",
-  description: "Lakshay Batra, software engineer.",
+  title: "Lakshay Batra",
+  description: "Computer engineer. IntelliFlow, a workflow platform, and a keystroke authentication system.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

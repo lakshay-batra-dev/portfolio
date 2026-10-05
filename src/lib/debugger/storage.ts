@@ -1,4 +1,5 @@
 export const DEBUGGER_MEMORY_KEY = "debug-lakshay.debugger";
+export const BOOT_SESSION_KEY = "debug-lakshay.boot-session";
 export const DEBUGGER_MEMORY_MS = 3 * 24 * 60 * 60 * 1000;
 
 export type DebuggerOutcome = "solved" | "skipped" | "timeout";
@@ -69,4 +70,24 @@ export function rememberDebuggerOutcome(store: DebuggerStore, outcome: DebuggerO
 
 export function browserDebuggerStore(): DebuggerStore {
   return window.localStorage;
+}
+
+export function readBootSession(store: DebuggerStore) {
+  try {
+    return store.getItem(BOOT_SESSION_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function rememberBootSession(store: DebuggerStore) {
+  try {
+    store.setItem(BOOT_SESSION_KEY, "1");
+  } catch {
+    // A blocked session store should fall back to showing the boot.
+  }
+}
+
+export function browserSessionStore(): DebuggerStore {
+  return window.sessionStorage;
 }

@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
+  BOOT_SESSION_KEY,
   DEBUGGER_MEMORY_KEY,
   DEBUGGER_MEMORY_MS,
+  readBootSession,
   readDebuggerVisit,
+  rememberBootSession,
   rememberDebuggerOutcome,
   type DebuggerStore,
 } from "./storage";
@@ -43,6 +46,14 @@ test("skip and timeout are stored the same way", () => {
 
   rememberDebuggerOutcome(store, "timeout", 20);
   assert.equal(readDebuggerVisit(store, 20)?.outcome, "timeout");
+});
+
+test("a boot session is remembered only in the store it was written to", () => {
+  const store = memoryStore();
+  assert.equal(readBootSession(store), false);
+  rememberBootSession(store);
+  assert.equal(readBootSession(store), true);
+  assert.equal(store.getItem(BOOT_SESSION_KEY), "1");
 });
 
 test("corrupt memory does not count as a visit", () => {

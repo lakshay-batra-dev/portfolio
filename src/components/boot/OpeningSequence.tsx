@@ -4,15 +4,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { DiagnosticHandoff } from "@/components/debugger/DiagnosticHandoff";
 import { DSADebugger } from "@/components/debugger/DSADebugger";
 import { ExitBridge, exitLines } from "@/components/debugger/ExitBridge";
-import { PortfolioGate } from "@/components/portfolio/PortfolioGate";
+import { Workspace } from "@/components/portfolio/Workspace";
 import type { BootCompletion, TaskStatus } from "@/lib/boot/types";
-import { browserDebuggerStore, readDebuggerVisit } from "@/lib/debugger/storage";
+import { browserDebuggerStore, browserSessionStore, readBootSession, readDebuggerVisit, rememberBootSession } from "@/lib/debugger/storage";
 import { Chassis } from "./Chassis";
 import { BootScreen } from "./BootScreen";
 import { CrtOverlay } from "./CrtOverlay";
 import type { Lamp } from "./StatusLamps";
 
-type Stage = "boot" | "handoff" | "debugger" | "bridge" | "portfolio";
+type Stage = "pending" | "boot" | "handoff" | "debugger" | "bridge" | "portfolio";
 
 const MOBILE_QUERY = "(max-width: 720px)";
 
@@ -28,7 +28,7 @@ function lampsFor(completion: BootCompletion): Lamp[] {
 
 export function OpeningSequence() {
   const [completion, setCompletion] = useState<BootCompletion | null>(null);
-  const [stage, setStage] = useState<Stage>("boot");
+  const [stage, setStage] = useState<Stage>("pending");
   const [flicker, setFlicker] = useState(false);
   const timers = useRef<number[]>([]);
 
@@ -38,6 +38,16 @@ export function OpeningSequence() {
       activeTimers.forEach((id) => window.clearTimeout(id));
     };
   }, []);
+
+  useEffect(() => {
+    setStage(readBootSession(browserSessionStore()) ? "portfolio" : "boot");
+  }, []);
+
+  useEffect(() => {
+    if (stage === "portfolio") {
+      rememberBootSession(browserSessionStore());
+    }
+  }, [stage]);
 
   const handleComplete = useCallback((result: BootCompletion) => {
     const reveal = () => {
@@ -88,7 +98,7 @@ export function OpeningSequence() {
   const showPortfolio = useCallback(() => setStage("portfolio"), []);
 
   return (
-    <div className="boot-glow relative min-h-dvh bg-boot-bg text-boot-text">
+    <div className={`${stage === "portfolio" ? "" : "boot-glow"} relative min-h-dvh bg-boot-bg text-boot-text`}>
       {stage === "boot" ? <BootScreen onComplete={handleComplete} /> : null}
       {stage === "handoff" && completion ? <DiagnosticHandoff completion={completion} /> : null}
       {stage === "debugger" && completion ? <DSADebugger completion={completion} onDone={showPortfolio} /> : null}
@@ -97,8 +107,8 @@ export function OpeningSequence() {
           <ExitBridge lines={[...exitLines.mobile]} />
         </Chassis>
       ) : null}
-      {stage === "portfolio" && completion ? <PortfolioGate completion={completion} /> : null}
-      <CrtOverlay />
+      {stage === "portfolio" ? <Workspace /> : null}
+      {stage === "portfolio" || stage === "pending" ? null : <CrtOverlay />}
       {flicker ? <div className="boot-flicker" aria-hidden="true" /> : null}
     </div>
   );
