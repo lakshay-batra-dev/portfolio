@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-boot-bg: #070806;
+  --color-boot-text: #e4e0d4;
+  --color-boot-dim: #b7b3a6;
+  --color-boot-ok: #c5d4b0;
+  --color-boot-warn: #e2c07a;
+  --color-boot-err: #e7a090;
+  --color-boot-line: rgba(228, 224, 212, 0.16);
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+body {
+  background: var(--color-boot-bg);
+  color: var(--color-boot-text);
+  font-family: var(--font-mono);
+}
+
+.boot-glow {
+  text-shadow: 0 0 0.6px rgba(228, 224, 212, 0.28);
+}
+
+.crt-scan {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.22) 3px
+  );
+  opacity: 0.45;
+}
+
+.crt-vignette {
+  background: radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, 0.42) 100%);
+}
+
+.boot-cursor {
+  display: inline-block;
+  width: 0.55ch;
+  height: 0.95em;
+  margin-left: 0.12ch;
+  background: currentColor;
+  transform: translateY(0.12em);
+  animation: boot-blink 1.05s steps(1) infinite;
+}
+
+.boot-flicker {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background: #e4e0d4;
+  animation: boot-flicker 200ms linear 1 both;
+}
+
+@keyframes boot-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes boot-flicker {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.16;
+  }
+  55% {
+    opacity: 0.03;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-cursor {
+    animation: none;
+  }
+
+  .boot-flicker {
+    animation: none;
+    opacity: 0;
+  }
+}
