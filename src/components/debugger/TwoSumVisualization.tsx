@@ -4,7 +4,7 @@ export function TwoSumVisualization({ visualization }: { visualization: Challeng
   const { nums, target, pair } = visualization;
 
   return (
-    <figure className="mt-5" aria-label={`Two Sum. nums ${nums.join(", ")}. target ${target}.`}>
+    <figure className="mt-3" aria-label={`Two Sum. nums ${nums.join(", ")}. target ${target}.`}>
       <figcaption className="text-[13px] leading-6 text-boot-dim">
         nums = [{nums.join(", ")}]
         <span className="mx-3 text-boot-line">/</span>
@@ -23,8 +23,8 @@ export function TwoSumVisualization({ visualization }: { visualization: Challeng
           );
         })}
         {nums.map((value, index) => (
-          <span key={`mark-${value}-${index}`} className={pair.includes(index) ? "text-boot-warn" : "text-transparent"} aria-hidden="true">
-            ↑
+          <span key={`mark-${value}-${index}`} className="text-boot-warn" aria-hidden="true">
+            {pair.includes(index) ? "↑" : "\u00a0"}
           </span>
         ))}
       </div>

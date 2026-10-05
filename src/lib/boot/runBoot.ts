@@ -232,7 +232,7 @@ export async function runBoot(
     id: "anomaly",
     kind: "command",
     text: formatAnomalyCount(diagnostics.anomalyCount),
-    status: "warning",
+    status: "error",
   });
   pushLine({
     id: "integrity",

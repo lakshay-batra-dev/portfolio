@@ -23,7 +23,7 @@ export function DiagnosticHandoff({ completion }: { completion: BootCompletion }
   return (
     <Chassis phaseLabel="DIAGNOSTICS" lamps={lampsFor(completion)}>
       <section id="diagnostic-session" data-state="ready" aria-live="polite" className="text-[14px] leading-7 sm:text-[15px]">
-        <p className="text-boot-warn">{formatAnomalyCount(anomalyCount)}</p>
+        <p className="text-boot-err">{formatAnomalyCount(anomalyCount)}</p>
         <p className="mt-3">Integrity: {integrity}%</p>
         <p className="mt-8">
           INVESTIGATION REQUIRED

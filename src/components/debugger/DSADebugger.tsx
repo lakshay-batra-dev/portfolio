@@ -109,9 +109,9 @@ export function DSADebugger({ completion, onDone }: { completion: BootCompletion
             </div>
             <p className="mt-4 text-[14px] leading-7">One line is off.</p>
             <p className="text-[14px] leading-7">
-              Line {challenge.flaggedLine} is flagged. Correct the smallest thing that is wrong.
+              Line {challenge.flaggedLine} is flagged. Correct the thing that is wrong.
             </p>
-            <div className="mt-6 flex items-baseline justify-between gap-4">
+            <div className="mt-4 flex items-baseline justify-between gap-4">
               <h3 className="text-[13px] tracking-[0.14em]">{challenge.title.toUpperCase()}</h3>
               <p className="text-[12px] text-boot-dim">C++</p>
             </div>
@@ -131,7 +131,7 @@ export function DSADebugger({ completion, onDone }: { completion: BootCompletion
                 Not quite.
               </p>
             ) : null}
-            <div className="sticky bottom-0 z-10 mt-5 flex flex-wrap items-center gap-3 border-t border-boot-line bg-boot-bg py-3">
+            <div className="sticky bottom-0 z-10 mt-3 flex flex-wrap items-center gap-3 border-t border-boot-line bg-boot-bg py-2">
               <button
                 type="submit"
                 className="border border-boot-text px-3 py-2 text-[12px] tracking-[0.12em] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-boot-warn"
