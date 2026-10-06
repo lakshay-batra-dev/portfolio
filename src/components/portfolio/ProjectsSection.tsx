@@ -59,7 +59,7 @@ function CaseStudy({ project, onClose }: { project: Project; onClose: () => void
         <a
           href={profile.github}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className={`text-boot-text underline decoration-boot-line underline-offset-4 ${focus}`}
         >
           GitHub profile

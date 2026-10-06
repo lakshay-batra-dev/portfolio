@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "tsx scripts/refreshPinnedRepos.ts && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/lib/boot/runBoot.test.ts src/lib/boot/typewriter.test.ts src/lib/debugger/validation.test.ts src/lib/debugger/storage.test.ts src/data/content.test.ts src/features/github/githubUtils.test.ts src/features/terminal/terminal.test.ts"
+    "test": "tsx --test src/lib/boot/runBoot.test.ts src/lib/boot/typewriter.test.ts src/lib/debugger/validation.test.ts src/lib/debugger/storage.test.ts src/lib/publicPath.test.ts src/data/content.test.ts src/features/github/githubUtils.test.ts src/features/terminal/terminal.test.ts"
   },
   "dependencies": {
     "next": "16.3.8",

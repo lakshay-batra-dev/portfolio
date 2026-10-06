@@ -20,7 +20,7 @@ export function ContactSection() {
             <a
               href={link.href}
               target={link.external ? "_blank" : undefined}
-              rel={link.external ? "noreferrer" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               className={`flex items-baseline justify-between gap-4 py-3 font-mono text-[13px] ${focus}`}
             >
               <span className="tracking-[0.12em]">{link.label.toUpperCase()}</span>

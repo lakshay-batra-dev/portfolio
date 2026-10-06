@@ -593,25 +593,7 @@ For every major component:
 
 Every stage should leave the website in a working state.
 
-## 21. Cursor Development Strategy
-
-Cursor will be used as the primary development assistant.
-
-Cursor should receive focused prompts for individual components.
-
-This README defines the overall product vision.
-
-Individual component specification files will define detailed implementation requirements.
-
-When implementing a component, Cursor should read:
-
-1. `README.md`
-2. The relevant component specification
-3. Existing source code
-
-It should not unnecessarily modify unrelated components.
-
-## 22. Important Product Constraints
+## 21. Important Product Constraints
 
 The portfolio must:
 
@@ -628,7 +610,7 @@ The portfolio must:
 - work without requiring a login
 - degrade gracefully if external APIs fail
 
-## 23. What Makes This Portfolio Different
+## 22. What Makes This Portfolio Different
 
 The differentiator is not simply the visual design.
 
@@ -656,7 +638,7 @@ The engineering details make it impressive.
 
 The normal navigation makes it practical.
 
-## 24. Final Experience
+## 23. Final Experience
 
 The intended final experience should feel approximately like:
 
@@ -704,7 +686,7 @@ The visitor should leave with the impression:
 
 > "This person doesn't just know how to make a portfolio. They like building software."
 
-## 25. Current Implementation Target
+## 24. Current Implementation Target
 
 The first implementation milestone is intentionally narrow:
 

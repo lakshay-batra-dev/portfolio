@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="DEBUG//LAKSHAY">
+  <rect width="32" height="32" fill="#070806"/>
+  <path d="M13 8 L6 16 L13 24" fill="none" stroke="#e4e0d4" stroke-width="2" stroke-linejoin="miter"/>
+  <path d="M18.5 8 L13.5 24" fill="none" stroke="#e4e0d4" stroke-width="2"/>
+  <path d="M19 8 L26 16 L19 24" fill="none" stroke="#e4e0d4" stroke-width="2" stroke-linejoin="miter"/>
+</svg>

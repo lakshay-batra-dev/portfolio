@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/profile";
+import { withBase } from "@/lib/publicPath";
 import { projects } from "@/data/projects";
 import { Terminal } from "@/features/terminal/Terminal";
 import type { NavigateRequest } from "@/features/terminal/terminalTypes";
@@ -120,9 +121,9 @@ export function Workspace() {
   return (
     <div className="workspace-in flex h-full min-h-0 flex-col overflow-hidden bg-boot-bg text-boot-text">
       <header className="flex shrink-0 items-center justify-between gap-4 border-b border-boot-line px-4 py-3 font-mono text-[12px] tracking-[0.12em]">
-        <p>LAKSHAY-BATRA.DEV</p>
+        <p>LAKSHAY BATRA</p>
         <p className="hidden text-boot-dim sm:block">{fileLabel}</p>
-        <a href={profile.resumePath} target="_blank" rel="noreferrer" className={`text-boot-text ${focus}`}>
+        <a href={withBase(profile.resumePath)} target="_blank" rel="noopener noreferrer" className={`text-boot-text ${focus}`}>
           RESUME
           <span className="sr-only">, PDF, opens in a new tab</span>
         </a>
@@ -171,7 +172,7 @@ export function Workspace() {
                 {item.label}
               </button>
             ))}
-            <a href={profile.resumePath} target="_blank" rel="noreferrer" className={`tracking-[0.12em] ${focus}`}>
+            <a href={withBase(profile.resumePath)} target="_blank" rel="noopener noreferrer" className={`tracking-[0.12em] ${focus}`}>
               RESUME
             </a>
           </div>

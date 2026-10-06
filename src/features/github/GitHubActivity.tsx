@@ -1,45 +1,13 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { profile } from "@/data/profile";
+import snapshot from "./pinnedSnapshot.json";
 import { parsePinnedPayload } from "./githubUtils";
-import type { PinnedRepo } from "./githubTypes";
 
 const focus =
   "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-boot-warn";
 
-type State =
-  | { status: "loading" }
-  | { status: "ready"; repos: PinnedRepo[] }
-  | { status: "unavailable" };
+const repos = parsePinnedPayload(snapshot);
 
 export function GitHubActivity() {
-  const [state, setState] = useState<State>({ status: "loading" });
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    fetch("/api/github/pinned", { signal: controller.signal })
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error("Pinned repositories were not returned");
-        }
-        const repos = parsePinnedPayload(await response.json());
-        if (!repos) {
-          throw new Error("Pinned repository payload was invalid");
-        }
-        setState({ status: "ready", repos });
-      })
-      .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return;
-        }
-        setState({ status: "unavailable" });
-      });
-
-    return () => controller.abort();
-  }, []);
-
   return (
     <section className="border-t border-boot-line pt-8" aria-labelledby="github-activity-heading">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
@@ -48,22 +16,24 @@ export function GitHubActivity() {
         </h2>
         <p className="font-mono text-[12px] text-boot-text">{profile.githubHandle}</p>
       </div>
-      {state.status === "loading" ? <p className="mt-4 font-sans text-[15px] text-boot-dim">Loading GitHub activity...</p> : null}
-      {state.status === "unavailable" ? (
-        <p className="mt-4 max-w-xl font-sans text-[15px] leading-7 text-boot-dim">Pinned repositories are temporarily unavailable.</p>
+      {repos === null ? (
+        <div className="mt-4 max-w-xl">
+          <p className="font-mono text-[12px] tracking-[0.14em] text-boot-dim">UNABLE TO LOAD GITHUB DATA</p>
+          <p className="mt-2 font-sans text-[15px] leading-7 text-boot-dim">GitHub activity is temporarily unavailable.</p>
+        </div>
       ) : null}
-      {state.status === "ready" && state.repos.length === 0 ? (
+      {repos !== null && repos.length === 0 ? (
         <p className="mt-4 font-sans text-[15px] leading-7 text-boot-dim">No pinned repositories.</p>
       ) : null}
-      {state.status === "ready" && state.repos.length > 0 ? (
+      {repos !== null && repos.length > 0 ? (
         <ul className="mt-4 divide-y divide-boot-line border-y border-boot-line">
-          {state.repos.map((repo) => (
+          {repos.map((repo) => (
             <li key={repo.url} className="py-3">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <a
                   href={repo.url}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className={`font-mono text-[14px] text-boot-text underline decoration-boot-line underline-offset-4 ${focus}`}
                 >
                   {repo.name}
@@ -79,7 +49,7 @@ export function GitHubActivity() {
       <a
         href={profile.github}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         className={`mt-4 inline-block font-mono text-[12px] tracking-[0.12em] text-boot-warn ${focus}`}
       >
         VIEW GITHUB →<span className="sr-only">, opens in a new tab</span>

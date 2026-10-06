@@ -1,4 +1,5 @@
 import { profile } from "@/data/profile";
+import { withBase } from "@/lib/publicPath";
 import { GitHubActivity } from "@/features/github/GitHubActivity";
 import { WorkList } from "./WorkList";
 
@@ -14,19 +15,19 @@ export function HomeSection({ onOpenProject }: { onOpenProject: (id: string) => 
         <p className="mt-6 max-w-xl font-sans text-[16px] leading-7">{profile.intro}</p>
         <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 font-mono text-[12px] tracking-[0.12em]">
           <a
-            href={profile.resumePath}
+            href={withBase(profile.resumePath)}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className={`border border-boot-text px-3 py-2 text-boot-text ${focus}`}
           >
             VIEW RESUME
             <span className="sr-only">, PDF, opens in a new tab</span>
           </a>
-          <a href={profile.github} target="_blank" rel="noreferrer" className={`text-boot-dim hover:text-boot-text ${focus}`}>
+          <a href={profile.github} target="_blank" rel="noopener noreferrer" className={`text-boot-dim hover:text-boot-text ${focus}`}>
             GITHUB
             <span className="sr-only">, opens in a new tab</span>
           </a>
-          <a href={profile.linkedin} target="_blank" rel="noreferrer" className={`text-boot-dim hover:text-boot-text ${focus}`}>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className={`text-boot-dim hover:text-boot-text ${focus}`}>
             LINKEDIN
             <span className="sr-only">, opens in a new tab</span>
           </a>
