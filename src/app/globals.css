@@ -99,6 +99,14 @@ body {
   animation: terminal-in 180ms ease-out;
 }
 
+@media (min-width: 768px) {
+  .terminal-panel {
+    height: var(--terminal-height, 16rem);
+    max-height: 70%;
+    flex-shrink: 0;
+  }
+}
+
 @keyframes terminal-in {
   from {
     transform: translateY(8px);

@@ -13,7 +13,7 @@ The panel is closed until the visitor opens it.
 - Ctrl + ` toggles it.
 - The status bar control labeled TERMINAL toggles it. Its accessible name is "Open terminal" or "Close terminal".
 - The first open in a page session prints a two-line introduction. Later opens in that session do not repeat it.
-- Desktop: a bottom panel inside the main workspace column, beside the sidebar and above the status bar. It uses the column width. Output scrolls inside the panel.
+- Desktop: a bottom panel inside the main workspace column, beside the sidebar and above the status bar. It uses the column width. Drag the top edge, or focus "Resize terminal" and use the arrow and page keys, to change its height for the rest of the page session. Output scrolls inside the panel.
 - Narrow screens: the terminal covers the viewport, with the prompt kept at the bottom and a close control in the header.
 - Reduced motion opens it without the short entrance animation.
 - A reload clears the working directory, history, output, and open state. None of that is written to localStorage.

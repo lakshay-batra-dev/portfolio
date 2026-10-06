@@ -1,5 +1,4 @@
-export type PublicRepo = {
-  id: number;
+export type PinnedRepo = {
   name: string;
   description: string | null;
   language: string | null;

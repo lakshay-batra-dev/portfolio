@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { profile } from "@/data/profile";
-import { fetchPublicRepos } from "./githubApi";
-import type { PublicRepo } from "./githubTypes";
+import { parsePinnedPayload } from "./githubUtils";
+import type { PinnedRepo } from "./githubTypes";
 
 const focus =
   "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-boot-warn";
 
 type State =
   | { status: "loading" }
-  | { status: "ready"; repos: PublicRepo[] }
+  | { status: "ready"; repos: PinnedRepo[] }
   | { status: "unavailable" };
 
 export function GitHubActivity() {
@@ -19,8 +19,17 @@ export function GitHubActivity() {
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchPublicRepos(controller.signal)
-      .then((repos) => setState({ status: "ready", repos }))
+    fetch("/api/github/pinned", { signal: controller.signal })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Pinned repositories were not returned");
+        }
+        const repos = parsePinnedPayload(await response.json());
+        if (!repos) {
+          throw new Error("Pinned repository payload was invalid");
+        }
+        setState({ status: "ready", repos });
+      })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
@@ -41,15 +50,15 @@ export function GitHubActivity() {
       </div>
       {state.status === "loading" ? <p className="mt-4 font-sans text-[15px] text-boot-dim">Loading GitHub activity...</p> : null}
       {state.status === "unavailable" ? (
-        <p className="mt-4 max-w-xl font-sans text-[15px] leading-7 text-boot-dim">GitHub activity is temporarily unavailable.</p>
+        <p className="mt-4 max-w-xl font-sans text-[15px] leading-7 text-boot-dim">Pinned repositories are temporarily unavailable.</p>
       ) : null}
       {state.status === "ready" && state.repos.length === 0 ? (
-        <p className="mt-4 font-sans text-[15px] leading-7 text-boot-dim">No recent public activity.</p>
+        <p className="mt-4 font-sans text-[15px] leading-7 text-boot-dim">No pinned repositories.</p>
       ) : null}
       {state.status === "ready" && state.repos.length > 0 ? (
         <ul className="mt-4 divide-y divide-boot-line border-y border-boot-line">
           {state.repos.map((repo) => (
-            <li key={`${repo.id}-${repo.name}`} className="py-3">
+            <li key={repo.url} className="py-3">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <a
                   href={repo.url}

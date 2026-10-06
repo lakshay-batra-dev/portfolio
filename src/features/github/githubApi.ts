@@ -1,24 +1,25 @@
 import { profile } from "@/data/profile";
-import { parsePublicRepos } from "./githubUtils";
-import type { PublicRepo } from "./githubTypes";
+import { parsePinnedProfile } from "./githubUtils";
+import type { PinnedRepo } from "./githubTypes";
 
-export async function fetchPublicRepos(signal: AbortSignal): Promise<PublicRepo[]> {
-  const response = await fetch(
-    `https://api.github.com/users/${profile.githubHandle}/repos?per_page=100&sort=updated`,
-    {
-      signal,
-      headers: { Accept: "application/vnd.github+json" },
+export async function fetchPinnedRepos(signal?: AbortSignal): Promise<PinnedRepo[]> {
+  const response = await fetch(`https://github.com/${profile.githubHandle}`, {
+    signal,
+    cache: "no-store",
+    headers: {
+      Accept: "text/html",
+      "User-Agent": "debug-lakshay-portfolio",
     },
-  );
+  });
 
   if (!response.ok) {
-    throw new Error("GitHub did not return repositories");
+    throw new Error("GitHub did not return the profile");
   }
 
-  const repos = parsePublicRepos(await response.json());
+  const repos = parsePinnedProfile(await response.text(), profile.githubHandle);
   if (!repos) {
-    throw new Error("GitHub payload was not a repository list");
+    throw new Error("Pinned repositories were not on the profile");
   }
 
-  return repos.slice(0, 6);
+  return repos;
 }

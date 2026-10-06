@@ -4,6 +4,7 @@ import { test } from "node:test";
 import { completeInput, runCommand } from "./terminalCommands";
 import { emptyHistory, moveHistory, submitHistory } from "./terminalHistory";
 import { executeCommand } from "./terminalParser";
+import { clampTerminalHeight } from "./terminalResize";
 import { HOME_PATH, listDir } from "./virtualFileSystem";
 
 const home = HOME_PATH;
@@ -143,12 +144,21 @@ test("command history moves within the current session only", () => {
   assert.equal(blank.value, "pwd");
 });
 
+test("terminal height stays inside the workspace column", () => {
+  assert.equal(clampTerminalHeight(10, 1000), 160);
+  assert.equal(clampTerminalHeight(400, 1000), 400);
+  assert.equal(clampTerminalHeight(900, 1000), 700);
+  assert.equal(clampTerminalHeight(200, 200), 140);
+});
+
 test("the terminal implementation does not reach for a real shell or filesystem", () => {
   const source = [
     "terminalCommands.ts",
     "terminalParser.ts",
     "virtualFileSystem.ts",
     "Terminal.tsx",
+    "TerminalResizeHandle.tsx",
+    "terminalResize.ts",
   ]
     .map((name) => readFileSync(new URL(`./${name}`, import.meta.url), "utf8"))
     .join("\n");
