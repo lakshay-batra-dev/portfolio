@@ -94,7 +94,7 @@ export function Workspace() {
   const fileLabel = section === "projects" && projectId ? `projects / ${projectId}` : section;
 
   return (
-    <div className="workspace-in flex h-dvh flex-col bg-boot-bg text-boot-text">
+    <div className="workspace-in flex h-full min-h-0 flex-col overflow-hidden bg-boot-bg text-boot-text">
       <header className="flex shrink-0 items-center justify-between gap-4 border-b border-boot-line px-4 py-3 font-mono text-[12px] tracking-[0.12em]">
         <p>LAKSHAY-BATRA.DEV</p>
         <p className="hidden text-boot-dim sm:block">{fileLabel}</p>
@@ -158,7 +158,7 @@ export function Workspace() {
         >
           {statusNote ?? "READY"}
         </button>
-        <p className="truncate">{secret ?? openProjectName ?? section}</p>
+        <p className="truncate">{secret ?? (section === "projects" ? openProjectName : null) ?? section}</p>
         <p className="hidden sm:block">LOCAL</p>
       </footer>
     </div>

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/lib/boot/runBoot.test.ts src/lib/boot/typewriter.test.ts src/lib/debugger/validation.test.ts src/lib/debugger/storage.test.ts src/data/content.test.ts"
+    "test": "tsx --test src/lib/boot/runBoot.test.ts src/lib/boot/typewriter.test.ts src/lib/debugger/validation.test.ts src/lib/debugger/storage.test.ts src/data/content.test.ts src/features/github/githubUtils.test.ts"
   },
   "dependencies": {
     "next": "16.3.8",

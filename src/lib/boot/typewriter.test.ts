@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { CHECKING_DOTS, checkingDotsDone, checkingLabel } from "./checkingDots";
 import { isTypewriterDone, revealedText, stepTypewriter, type TypewriterState } from "./typewriter";
 
 const lines = [
@@ -29,4 +30,13 @@ test("typewriter reveals one character at a time and waits to start the next lin
   assert.deepEqual(reveal(state), ["Hi", "Yo"]);
   assert.equal(isTypewriterDone(state, lines), true);
   assert.equal(stepTypewriter(state, lines), state);
+});
+
+test("checking dots stay on one label and finish on an ellipsis", () => {
+  assert.deepEqual(
+    CHECKING_DOTS.map((_, frame) => checkingLabel(frame)),
+    ["Checking.", "Checking..", "Checking...", "Checking.", "Checking..", "Checking...", "Checking..."],
+  );
+  assert.equal(checkingDotsDone(0), false);
+  assert.equal(checkingDotsDone(CHECKING_DOTS.length - 1), true);
 });

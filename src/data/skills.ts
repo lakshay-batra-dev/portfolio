@@ -1,6 +1,7 @@
 export type Skill = {
   name: string;
   projects: string[];
+  also?: string[];
 };
 
 export type SkillGroup = {
@@ -11,55 +12,57 @@ export type SkillGroup = {
 
 export const skillGroups: SkillGroup[] = [
   {
-    id: "frontend",
-    label: "Frontend",
+    id: "languages",
+    label: "Languages",
     skills: [
-      { name: "React", projects: ["intelliflow"] },
-      { name: "TypeScript", projects: ["intelliflow"] },
+      { name: "C++", projects: [] },
+      { name: "Python", projects: ["intelliflow", "keystroke"], also: ["Research"] },
       { name: "JavaScript", projects: ["intelliflow"] },
+      { name: "TypeScript", projects: ["intelliflow"] },
+      { name: "SQL", projects: [] },
       { name: "HTML", projects: [] },
       { name: "CSS", projects: [] },
-      { name: "Tailwind CSS", projects: [] },
     ],
   },
   {
-    id: "backend",
-    label: "Backend",
+    id: "web",
+    label: "Web / Backend",
     skills: [
+      { name: "React.js", projects: ["intelliflow"] },
       { name: "Node.js", projects: ["intelliflow"] },
-      { name: "Express", projects: ["intelliflow"] },
-      { name: "FastAPI", projects: ["intelliflow"] },
+      { name: "Express.js", projects: ["intelliflow"] },
+      { name: "Tailwind CSS", projects: [] },
       { name: "REST APIs", projects: ["intelliflow"] },
     ],
   },
   {
-    id: "data",
-    label: "Databases",
+    id: "ml",
+    label: "Data / ML",
     skills: [
-      { name: "MongoDB", projects: ["intelliflow"] },
-      { name: "SQL", projects: [] },
+      { name: "scikit-learn", projects: ["keystroke"] },
+      { name: "XGBoost", projects: ["keystroke"] },
+      { name: "SVM", projects: ["keystroke"], also: ["Research"] },
+      { name: "Random Forest", projects: ["keystroke"], also: ["Research"] },
+      { name: "LangGraph", projects: ["intelliflow"] },
     ],
   },
   {
-    id: "ml",
-    label: "AI / ML",
+    id: "databases",
+    label: "Databases",
     skills: [
-      { name: "Python", projects: ["intelliflow", "keystroke"] },
-      { name: "LangGraph", projects: ["intelliflow"] },
-      { name: "Scikit-learn", projects: ["keystroke"] },
-      { name: "XGBoost", projects: ["keystroke"] },
-      { name: "SVM", projects: ["keystroke"] },
+      { name: "MongoDB", projects: ["intelliflow"] },
+      { name: "MySQL", projects: [] },
     ],
   },
   {
     id: "core",
     label: "Core",
     skills: [
-      { name: "C++", projects: [] },
       { name: "DSA", projects: [] },
       { name: "OOP", projects: [] },
       { name: "DBMS", projects: [] },
       { name: "Operating Systems", projects: [] },
+      { name: "Computer Networks", projects: [] },
     ],
   },
 ];

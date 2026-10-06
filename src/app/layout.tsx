@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${jetbrainsMono.variable} h-full`}>
-      <body className="min-h-full font-mono antialiased">{children}</body>
+      <body className="h-full font-mono antialiased">{children}</body>
     </html>
   );
 }

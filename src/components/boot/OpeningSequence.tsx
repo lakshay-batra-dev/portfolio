@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { DiagnosticHandoff } from "@/components/debugger/DiagnosticHandoff";
 import { DSADebugger } from "@/components/debugger/DSADebugger";
 import { ExitBridge, exitLines } from "@/components/debugger/ExitBridge";
@@ -16,6 +16,18 @@ type Stage = "pending" | "boot" | "handoff" | "debugger" | "bridge" | "portfolio
 
 const MOBILE_QUERY = "(max-width: 720px)";
 
+function subscribeBootSession() {
+  return () => {};
+}
+
+function clientBootStage(): "portfolio" | "boot" {
+  return readBootSession(browserSessionStore()) ? "portfolio" : "boot";
+}
+
+function serverBootStage(): "pending" {
+  return "pending";
+}
+
 function lampsFor(completion: BootCompletion): Lamp[] {
   const statusFor = (id: string, fallback: TaskStatus): TaskStatus => completion.tasks[id] ?? fallback;
 
@@ -29,6 +41,8 @@ function lampsFor(completion: BootCompletion): Lamp[] {
 export function OpeningSequence() {
   const [completion, setCompletion] = useState<BootCompletion | null>(null);
   const [stage, setStage] = useState<Stage>("pending");
+  const resumed = useSyncExternalStore(subscribeBootSession, clientBootStage, serverBootStage);
+  const visible: Stage = stage === "pending" ? resumed : stage;
   const [flicker, setFlicker] = useState(false);
   const timers = useRef<number[]>([]);
 
@@ -40,14 +54,10 @@ export function OpeningSequence() {
   }, []);
 
   useEffect(() => {
-    setStage(readBootSession(browserSessionStore()) ? "portfolio" : "boot");
-  }, []);
-
-  useEffect(() => {
-    if (stage === "portfolio") {
+    if (visible === "portfolio") {
       rememberBootSession(browserSessionStore());
     }
-  }, [stage]);
+  }, [visible]);
 
   const handleComplete = useCallback((result: BootCompletion) => {
     const reveal = () => {
@@ -66,7 +76,7 @@ export function OpeningSequence() {
   }, []);
 
   useEffect(() => {
-    if (stage !== "handoff") {
+    if (visible !== "handoff") {
       return;
     }
 
@@ -84,31 +94,33 @@ export function OpeningSequence() {
     }, reduceMotion ? 500 : 1100);
 
     return () => window.clearTimeout(id);
-  }, [stage]);
+  }, [visible]);
 
   useEffect(() => {
-    if (stage !== "bridge") {
+    if (visible !== "bridge") {
       return;
     }
 
     const id = window.setTimeout(() => setStage("portfolio"), 2000);
     return () => window.clearTimeout(id);
-  }, [stage]);
+  }, [visible]);
 
   const showPortfolio = useCallback(() => setStage("portfolio"), []);
 
   return (
-    <div className={`${stage === "portfolio" ? "" : "boot-glow"} relative min-h-dvh bg-boot-bg text-boot-text`}>
-      {stage === "boot" ? <BootScreen onComplete={handleComplete} /> : null}
-      {stage === "handoff" && completion ? <DiagnosticHandoff completion={completion} /> : null}
-      {stage === "debugger" && completion ? <DSADebugger completion={completion} onDone={showPortfolio} /> : null}
-      {stage === "bridge" && completion ? (
+    <div
+      className={`relative bg-boot-bg text-boot-text ${visible === "portfolio" ? "h-full overflow-hidden" : "boot-glow min-h-dvh"}`}
+    >
+      {visible === "boot" ? <BootScreen onComplete={handleComplete} /> : null}
+      {visible === "handoff" && completion ? <DiagnosticHandoff completion={completion} /> : null}
+      {visible === "debugger" && completion ? <DSADebugger completion={completion} onDone={showPortfolio} /> : null}
+      {visible === "bridge" && completion ? (
         <Chassis phaseLabel="DEBUG" lamps={lampsFor(completion)}>
           <ExitBridge lines={[...exitLines.mobile]} />
         </Chassis>
       ) : null}
-      {stage === "portfolio" ? <Workspace /> : null}
-      {stage === "portfolio" || stage === "pending" ? null : <CrtOverlay />}
+      {visible === "portfolio" ? <Workspace /> : null}
+      {visible === "portfolio" || visible === "pending" ? null : <CrtOverlay />}
       {flicker ? <div className="boot-flicker" aria-hidden="true" /> : null}
     </div>
   );

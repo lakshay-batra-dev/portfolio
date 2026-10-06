@@ -30,7 +30,6 @@ export function ContactSection() {
           </li>
         ))}
       </ul>
-      <p className="mt-6 font-mono text-[12px] text-boot-dim">Phone {profile.phone}</p>
     </div>
   );
 }

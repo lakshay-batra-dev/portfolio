@@ -1,28 +1,33 @@
 import { experience } from "@/data/experience";
 
 export function ExperienceSection() {
+  const entry = experience[0];
+  if (!entry) {
+    return null;
+  }
+
   return (
-    <div>
-      <h1 className="font-sans text-[1.75rem] font-medium tracking-tight">Experience</h1>
-      <p className="mt-3 max-w-xl font-sans text-[15px] leading-7 text-boot-dim">
-        Research at Thapar. Campus leadership stays on the resume and is not listed here as a job.
+    <div className="max-w-2xl">
+      <h1 className="font-sans text-[1.75rem] font-medium tracking-tight">{entry.role}</h1>
+      <p className="mt-2 font-sans text-[16px]">{entry.org}</p>
+      <p className="mt-1 font-mono text-[12px] text-boot-dim">
+        {entry.dates} · {entry.place}
       </p>
-      <div className="mt-8 space-y-8">
-        {experience.map((entry) => (
-          <article key={entry.id} className="max-w-2xl border border-boot-line px-4 py-4">
-            <h2 className="font-sans text-[1.15rem]">{entry.role}</h2>
-            <p className="mt-1 font-sans text-[15px] text-boot-dim">{entry.org}</p>
-            <p className="mt-1 font-mono text-[12px] text-boot-dim">
-              {entry.dates} · {entry.place}
-            </p>
-            <ul className="mt-4 list-disc space-y-2 pl-5 font-sans text-[15px] leading-7">
-              {entry.points.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
-          </article>
+      <p className="mt-6 font-mono text-[12px] tracking-[0.12em] text-boot-dim">FOCUS</p>
+      <p className="mt-2 font-sans text-[15px] leading-7">{entry.focus}</p>
+      <ol className="mt-6 border border-boot-line px-3 py-3 font-mono text-[13px] leading-7" aria-label="Signal processing pipeline">
+        {entry.pipeline.map((step, index) => (
+          <li key={step}>
+            {index > 0 ? <span className="mr-2 text-boot-dim">→</span> : null}
+            {step}
+          </li>
         ))}
-      </div>
+      </ol>
+      <ul className="mt-6 list-disc space-y-3 pl-5 font-sans text-[15px] leading-7">
+        {entry.points.map((point) => (
+          <li key={point}>{point}</li>
+        ))}
+      </ul>
     </div>
   );
 }

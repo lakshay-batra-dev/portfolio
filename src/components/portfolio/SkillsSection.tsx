@@ -9,7 +9,7 @@ export function SkillsSection({ onOpenProject }: { onOpenProject: (id: string) =
     <div>
       <h1 className="font-sans text-[1.75rem] font-medium tracking-tight">Skills</h1>
       <p className="mt-3 max-w-xl font-sans text-[15px] leading-7 text-boot-dim">
-        A link means that technology is part of that project. Nothing here is a percentage.
+        Technologies used across my projects and research.
       </p>
       <div className="mt-8 grid gap-8 md:grid-cols-2">
         {skillGroups.map((group) => (
@@ -21,7 +21,7 @@ export function SkillsSection({ onOpenProject }: { onOpenProject: (id: string) =
               {group.skills.map((skill) => (
                 <li key={skill.name} className="flex flex-wrap items-baseline justify-between gap-2 py-2">
                   <span className="font-sans text-[15px]">{skill.name}</span>
-                  {skill.projects.length > 0 ? (
+                  {skill.projects.length > 0 || skill.also?.length ? (
                     <span className="flex flex-wrap gap-3">
                       {skill.projects.map((id) => {
                         const project = projects.find((item) => item.id === id);
@@ -39,6 +39,11 @@ export function SkillsSection({ onOpenProject }: { onOpenProject: (id: string) =
                           </button>
                         );
                       })}
+                      {skill.also?.map((label) => (
+                        <span key={label} className="font-mono text-[12px] text-boot-dim">
+                          {label}
+                        </span>
+                      ))}
                     </span>
                   ) : null}
                 </li>
