@@ -43,23 +43,6 @@ export function HomeSection({ onOpenProject }: { onOpenProject: (id: string) => 
       <div className="mt-14">
         <GitHubActivity />
       </div>
-
-      <section className="mt-14 max-w-xl border-t border-boot-line pt-8" aria-labelledby="education-heading">
-        <h2 id="education-heading" className="font-mono text-[12px] tracking-[0.14em] text-boot-dim">
-          EDUCATION
-        </h2>
-        <ul className="mt-4 divide-y divide-boot-line border-y border-boot-line">
-          {profile.education.map((entry) => (
-            <li key={entry.title} className="py-4">
-              <p className="font-sans text-[16px]">{entry.title}</p>
-              <p className="mt-1 font-sans text-[15px] leading-7 text-boot-dim">{entry.school}</p>
-              {"place" in entry ? <p className="font-sans text-[15px] leading-7 text-boot-dim">{entry.place}</p> : null}
-              <p className="font-mono text-[12px] text-boot-dim">{entry.years}</p>
-              <p className="font-mono text-[12px] text-boot-dim">{entry.result}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
     </div>
   );
 }

@@ -3,7 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/profile";
 import { projects } from "@/data/projects";
+import { Terminal } from "@/features/terminal/Terminal";
+import type { NavigateRequest } from "@/features/terminal/terminalTypes";
 import { ContactSection } from "./ContactSection";
+import { EducationSection } from "./EducationSection";
 import { ExperienceSection } from "./ExperienceSection";
 import { HomeSection } from "./HomeSection";
 import { ProjectsSection } from "./ProjectsSection";
@@ -13,6 +16,7 @@ const sections = [
   { id: "home", label: "HOME" },
   { id: "projects", label: "PROJECTS" },
   { id: "experience", label: "EXPERIENCE" },
+  { id: "education", label: "EDUCATION" },
   { id: "skills", label: "SKILLS" },
   { id: "contact", label: "CONTACT" },
 ] as const;
@@ -28,7 +32,10 @@ export function Workspace() {
   const [help, setHelp] = useState(false);
   const [statusNote, setStatusNote] = useState<string | null>(null);
   const [secret, setSecret] = useState<string | null>(null);
+  const [terminalOpen, setTerminalOpen] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
+  const terminalButtonRef = useRef<HTMLButtonElement>(null);
+  const terminalOpenRef = useRef(false);
 
   function openProject(id: string) {
     setProjectId(id);
@@ -41,6 +48,16 @@ export function Workspace() {
     setHelp(false);
   }
 
+  function navigateFromTerminal(target: NavigateRequest) {
+    setSection(target.section);
+    setProjectId(target.projectId);
+    setHelp(false);
+  }
+
+  useEffect(() => {
+    terminalOpenRef.current = terminalOpen;
+  }, [terminalOpen]);
+
   useEffect(() => {
     mainRef.current?.scrollTo({ top: 0 });
   }, [section, projectId]);
@@ -50,6 +67,13 @@ export function Workspace() {
     let secretTimer = 0;
 
     function onKey(event: KeyboardEvent) {
+      if (event.ctrlKey && !event.altKey && !event.metaKey && (event.key === "`" || event.code === "Backquote")) {
+        event.preventDefault();
+        const next = !terminalOpenRef.current;
+        setTerminalOpen(next);
+        if (!next) terminalButtonRef.current?.focus();
+        return;
+      }
       const target = event.target;
       if (target instanceof HTMLElement && target.closest("input, textarea, [contenteditable='true']")) {
         return;
@@ -122,17 +146,21 @@ export function Workspace() {
             );
           })}
         </nav>
-        <main ref={mainRef} id="workspace" className="min-h-0 min-w-0 flex-1 overflow-y-auto px-5 py-8 md:px-10">
-          <div className="mx-auto max-w-5xl">
-            {section === "home" ? <HomeSection onOpenProject={openProject} /> : null}
-            {section === "projects" ? (
-              <ProjectsSection projectId={projectId} onOpenProject={openProject} onCloseProject={() => setProjectId(null)} />
-            ) : null}
-            {section === "experience" ? <ExperienceSection /> : null}
-            {section === "skills" ? <SkillsSection onOpenProject={openProject} /> : null}
-            {section === "contact" ? <ContactSection /> : null}
-          </div>
-        </main>
+        <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+          <main ref={mainRef} id="workspace" className="min-h-0 min-w-0 flex-1 overflow-y-auto px-5 py-8 md:px-10">
+            <div className="mx-auto max-w-5xl">
+              {section === "home" ? <HomeSection onOpenProject={openProject} /> : null}
+              {section === "projects" ? (
+                <ProjectsSection projectId={projectId} onOpenProject={openProject} onCloseProject={() => setProjectId(null)} />
+              ) : null}
+              {section === "experience" ? <ExperienceSection /> : null}
+              {section === "education" ? <EducationSection /> : null}
+              {section === "skills" ? <SkillsSection onOpenProject={openProject} /> : null}
+              {section === "contact" ? <ContactSection /> : null}
+            </div>
+          </main>
+          <Terminal open={terminalOpen} onClose={() => setTerminalOpen(false)} onNavigate={navigateFromTerminal} />
+        </div>
       </div>
       {help ? (
         <div className="shrink-0 border-t border-boot-line px-4 py-3 font-mono text-[12px]" role="region" aria-label="Command help">
@@ -159,7 +187,21 @@ export function Workspace() {
           {statusNote ?? "READY"}
         </button>
         <p className="truncate">{secret ?? (section === "projects" ? openProjectName : null) ?? section}</p>
-        <p className="hidden sm:block">LOCAL</p>
+        <div className="flex shrink-0 items-center gap-3">
+          <button
+            ref={terminalButtonRef}
+            type="button"
+            aria-pressed={terminalOpen}
+            aria-expanded={terminalOpen}
+            aria-controls="terminal-panel"
+            aria-label={terminalOpen ? "Close terminal" : "Open terminal"}
+            onClick={() => setTerminalOpen((open) => !open)}
+            className={`${focus} ${terminalOpen ? "text-boot-warn" : "text-boot-dim"}`}
+          >
+            TERMINAL
+          </button>
+          <p className="hidden sm:block">LOCAL</p>
+        </div>
       </footer>
     </div>
   );

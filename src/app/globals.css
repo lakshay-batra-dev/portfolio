@@ -95,6 +95,21 @@ body {
   animation: workspace-in 220ms ease-out;
 }
 
+.terminal-open {
+  animation: terminal-in 180ms ease-out;
+}
+
+@keyframes terminal-in {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
 @keyframes workspace-in {
   from {
     opacity: 0;
@@ -114,7 +129,8 @@ body {
     opacity: 0;
   }
 
-  .workspace-in {
+  .workspace-in,
+  .terminal-open {
     animation: none;
   }
 }

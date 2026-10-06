@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { education } from "./education";
 import { experience } from "./experience";
 import { profile } from "./profile";
 import { projects } from "./projects";
@@ -11,15 +12,19 @@ test("portfolio content matches the published profile", () => {
     projects.map((project) => project.id),
     ["intelliflow", "keystroke"],
   );
-  assert.equal(profile.education[0]?.title, "B.Tech — Computer Engineering");
-  assert.equal(profile.education[0]?.result, "CGPA: 7.58 / 10");
-  assert.equal(profile.education[0]?.years, "2023 — 2027");
-  assert.equal(profile.education[1]?.title, "Class XII — CBSE");
-  assert.equal(profile.education[1]?.years, "2023");
-  assert.equal(profile.education[1]?.result, "Percentage: 92%");
-  assert.equal(profile.education[2]?.title, "Class X — CBSE");
-  assert.equal(profile.education[2]?.years, "2021");
-  assert.equal(profile.education[2]?.result, "Percentage: 94.6%");
+  assert.equal(education[0]?.title, "B.Tech — Computer Engineering");
+  assert.equal(education[0]?.school, "Thapar Institute of Engineering and Technology");
+  assert.equal(education[0]?.resultLabel, "CGPA");
+  assert.equal(education[0]?.result, "7.58 / 10");
+  assert.equal(education[0]?.years, "2023 — 2027");
+  assert.equal(education[1]?.title, "Class XII — CBSE");
+  assert.equal(education[1]?.place, "Rohtak, India");
+  assert.equal(education[1]?.years, "2022 — 2023");
+  assert.equal(education[1]?.result, "92%");
+  assert.equal(education[2]?.title, "Class X — CBSE");
+  assert.equal(education[2]?.place, "Rohtak, India");
+  assert.equal(education[2]?.years, "2020 — 2021");
+  assert.equal(education[2]?.result, "94.6%");
   assert.equal(profile.intro.includes("IntelliFlow"), false);
   assert.equal(experience.length, 1);
   assert.equal(experience[0]?.role, "Research Intern");
@@ -35,7 +40,7 @@ test("portfolio content matches the published profile", () => {
   assert.match(JSON.stringify(keystroke), /31 timing features/);
   assert.equal(JSON.stringify(keystroke).includes("production authentication system"), true);
 
-  const blob = JSON.stringify({ profile, projects, experience, skillGroups });
+  const blob = JSON.stringify({ profile, projects, experience, education, skillGroups });
   assert.equal(blob.includes("Computer Science"), false);
   assert.equal(blob.includes("7.70"), false);
   assert.equal(blob.includes("7.58 / 10"), true);
